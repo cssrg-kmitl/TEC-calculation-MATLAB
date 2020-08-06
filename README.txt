@@ -1,7 +1,7 @@
 This is the README file for 
 the Total Electron Content(TEC) calculation on MATLAB from RINEX 2.11
 Calculate TEC based on dual-frequency receiver (GPS) 
-Original by Napat Tongkasem
+Original by Napat Tongkasem, Somkit Sopan, Jirapoom Budtho, Nantavit Wongthodsarat
 Version 1.00 
 (15/02/2019) - Create the program
 
@@ -15,6 +15,7 @@ or download: http://cygwin.com/install.html
 - http://iono-gnss.kmitl.ac.th/
 
 =================================================
+Advisor: Prof.Dr. Pornchai Supnithi
 CSSRG Laboratory
 School of Telecommunication Engineering
 Faculty of Engineering
