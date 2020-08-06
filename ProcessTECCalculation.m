@@ -1,6 +1,6 @@
 %% Total Electron Content (TEC) calculation from RINEX 2.11
 % Calculate TEC based on dual-frequency receiver (GPS)
-% Original by Napat Tongkasem
+% Original by Napat Tongkasem, Somkit Sopan, Jirapoom Budtho, Nantavit Wongthodsarat
 % Version 1.00 
 % (10/08/2019) - Create the program
 % 
@@ -13,6 +13,7 @@
 % 3. We have laboratory website, you can visit
 % - http://iono-gnss.kmitl.ac.th/
 % =================================================
+% Advisor: Prof.Dr. Pornchai Supnithi
 % CSSRG Laboratory
 % School of Telecommunication Engineering
 % Faculty of Engineering
