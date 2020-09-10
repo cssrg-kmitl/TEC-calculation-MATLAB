@@ -3,8 +3,8 @@
 % == Download and DCB files
 if     length(P1C1_filename) == 8 &&  length(P1P2_filename) == 8
         %====== Download cURL command
-        P1C1_download_cmd = ['nohup curl.exe -v -O --retry 50 --retry-max-time 0 ftp://ftp.aiub.unibe.ch/CODE/' P1C1_filename];
-        P1P2_download_cmd = ['nohup curl.exe -v -O --retry 50 --retry-max-time 0 ftp://ftp.aiub.unibe.ch/CODE/' P1P2_filename];
+        P1C1_download_cmd = ['curl.exe -v -O --retry 50 --retry-max-time 0 ftp://ftp.aiub.unibe.ch/CODE/' P1C1_filename];
+        P1P2_download_cmd = ['curl.exe -v -O --retry 50 --retry-max-time 0 ftp://ftp.aiub.unibe.ch/CODE/' P1P2_filename];
         system(P1C1_download_cmd)
         system(P1P2_download_cmd)
             P1C1_filename2 = ['P1C1' year(3:4)...
