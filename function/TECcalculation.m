@@ -34,7 +34,7 @@ TEC.withrcvbias      = nan(86400,32); % STEC with receiver DCB
 TEC.withbias         = nan(86400,32); % STEC with satellite and receiver DCB
 STECp                = nan(86400,32); % STEC calculated from code range
 STECl                = nan(86400,32); % STEC calculated from carrier phase
-
+Times                = nan(86400,32); % Time
 ROTI                 = nan(288,32);   % Rate of Change TEC (5 min sample)
 DCB.sat              = nan(86400,32); % Satellite DCB
 DCB.rcv              = nan(86400,32); % Receiver DCB
@@ -72,6 +72,7 @@ for i = 1 : length(Sat_obs) % GPS 1 - 32
     STECp(Time+1,PRN) = k*(P2-C1);
         %===== STEC Carrier phase
     STECl(Time+1,PRN) = k*(L1-L2);
+    Times(Time+1,PRN) = Time+1;
 end
 
     % 2.4 elevation angle cutoff <15 degree
@@ -82,11 +83,12 @@ mask(~isnan(mask))   = 1;
 TEC.STECp = mask.*STECp;
 TEC.STECl = mask.*STECl;
 prm.elevation = mask.*prm.elevation;
+prm.Times = mask.*Times;
 
     % 2.5 Cycle slip correction
-Sample = 1;
-STECl_M_new = CycleSlipCorrection(TEC.STECl,prm.elevation,Sample,Sat_obs',3*60,24*60,1,30);
-
+% Sample = 1;
+% STECl_M_new = CycleSlipCorrection(TEC.STECl,prm.elevation,Sample,Sat_obs',3*60,24*60,1,30);
+STECl_M_new = CycleSlipCorrection_v2(TEC.STECl,prm.elevation,prm.Times,Sat_obs');
     % 2.6 Adjusted STEC 
 % window adjusted every length of nan/2
 TEC.withbias = windowshiftTEC(STECl_M_new,TEC.STECp);
