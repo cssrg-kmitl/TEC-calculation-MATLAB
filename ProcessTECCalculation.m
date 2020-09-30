@@ -46,6 +46,7 @@ r_n_name = 'KMIT2000.20n'; % navigation file's name (if blank, program will down
 % =========== Program's path ==========================
 p_path = [pwd '\'];             % Program path
 R_path = [p_path 'RINEX\'];     % RINEX path
+if ~isempty([p_path 'Results\']);mkdir([p_path 'Results\']);end
 S_path = [p_path 'Results\'];   % Results path
 DCB_path   = [p_path 'DCB\'];   % DCB path
 path(path,[p_path 'function']);
