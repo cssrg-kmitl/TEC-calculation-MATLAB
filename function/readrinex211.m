@@ -11,6 +11,7 @@ function [obs,nav,doy,Year] = readrinex211(r_o_name,r_n_name,rinex_path)
 %          obs.station - station name
 %          obs.data    - data (pseudorange, SNR, etc.)
 %          obs.index   - number of satellites
+%          obs.rcvpos  - receiver position
 %          ----------- nav - navigation ----------------
 %          nav.eph     - ephemaris data of satellites
 %          nav.index   - number of satellites
@@ -21,7 +22,7 @@ n_name = 'cusv'; %amu2, ankr, cnmr, chpi
 current_path = [pwd '\'];
 cd(rinex_path)
 % Read RINEX Observation Files
-    [obs.date, obs.epoch, obs.type, ~, ~, obs.station, obs.data, obs.index, ~,...
+    [obs.date, obs.epoch, obs.type, ~, ~, obs.station, obs.data, obs.index, obs.rcvpos,...
         ~, ~, ~] = readrinexobs(r_o_name);
     
 % Calculate Date Of Year (DOY)
