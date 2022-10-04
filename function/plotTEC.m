@@ -47,12 +47,7 @@ grid on
 ylabel('TEC (TECU)')
 title('Total Electron Content (TEC)')
 text(0.5,nanmin(ylim)+2,'CSSRG Laboratory@KMITL, Thailand.','Color',[0 0 0],'FontSize',6)
-msg1 = sprintf('Max STEC/VTEC = %.2f/%.2f TECu\n',nanmax(nanmax(TEC.slant)),nanmax(nanmax(TEC.vertical)));
-msg2 = sprintf('Min STEC/VTEC = %.2f/%.2f TECu\n',nanmin(nanmin(TEC.slant)),nanmin(nanmin(TEC.vertical)));
-text(15,nanmax(nanmax(TEC.slant))-3,'colorful - STEC','Color',red,'FontSize',10)
-text(15,nanmax(nanmax(TEC.slant))-8,'black - VTEC','Color',[0 0 0],'FontSize',10)
-text(15,nanmax(nanmax(TEC.slant))-16,msg1,'Color',[0 0 0],'FontSize',8)
-text(15,nanmax(nanmax(TEC.slant))-21,msg2,'Color',[0 0 0],'FontSize',8)
+
 
 subplot(212)
 plot(Time_roti,ROTI,'k')
