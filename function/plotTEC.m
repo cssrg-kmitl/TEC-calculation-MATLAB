@@ -36,9 +36,9 @@ eval(['ROTI  = ' name3 ';'])
 eval(['prm   = ' name4 ';'])
 
 subplot(211)
-plot(Time_TEC,TEC.slant,'-');
+plot(Time_TEC,TEC.slant,'.');
 hold on
-plot(Time_TEC,TEC.vertical,'-','LineWidth',1,'Color',[0 0 0]);
+plot(Time_TEC,TEC.vertical,'.','LineWidth',1,'Color',[0 0 0]);
 hold off
 xlim([0 24])
 ylim([0 inf])
@@ -103,13 +103,13 @@ catch
 end
 
 subplot(211)
-plot(Time_TEC,TEC.withbias,'-');
+plot(Time_TEC,TEC.withbias,'.');
 xlim([0 24])
 grid on
 ylabel('TEC (TECU)')
 title('STEC with satellite and receiver DCBs')
 subplot(212)
-plot(Time_TEC,TEC.withrcvbias,'-');
+plot(Time_TEC,TEC.withrcvbias,'.');
 xlim([0 24])
 grid on
 ylabel('TEC (TECU)')
@@ -128,13 +128,13 @@ catch
       'HorizontalAlignment', 'Center', 'VerticalAlignment', 'Bottom' ) ;
 end
 subplot(211)
-plot(Time_TEC,TEC.STECp,'-');
+plot(Time_TEC,TEC.STECp,'.');
 xlim([0 24])
 grid on
 ylabel('TEC (TECU)')
 title('STEC from psudorange code calculation')
 subplot(212)
-plot(Time_TEC,TEC.STECl,'-');
+plot(Time_TEC,TEC.STECl,'.');
 xlim([0 24])
 grid on
 ylabel('TEC (TECU)')
