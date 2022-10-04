@@ -45,6 +45,7 @@ prm.elevation        = nan(86400,32); % elevation angle
 Sat_obs = unique(nav.index);
 for i = 1 : length(Sat_obs) % GPS 1 - 32
     disp(['PRN# ... ' num2str(Sat_obs(i)) ' ...'])
+    try
     PRN = Sat_obs(i);
     Sat  = find(obs.index == PRN);
     Time = obs.epoch(Sat)+((obs.date(4)*60*60)+(obs.date(5)*60)+obs.date(6));
@@ -73,6 +74,10 @@ for i = 1 : length(Sat_obs) % GPS 1 - 32
         %===== STEC Carrier phase
     STECl(Time+1,PRN) = k*(L1-L2);
     Times(Time+1,PRN) = Time+1;
+    catch
+        disp(['PRN# ... ' num2str(Sat_obs(i)) '... error ...'])
+        continue
+    end
 end
 
     % 2.4 elevation angle cutoff <15 degree
