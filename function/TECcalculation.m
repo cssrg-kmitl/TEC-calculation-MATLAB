@@ -19,7 +19,7 @@ refpos = reffromIPPindex(obs.station);
 disp(['Calculate TEC at ' obs.station ' station'])
 if isempty(refpos)
     try
-        refpos = obs.rcvpos;
+        refpos = obs.rcvpos';
     catch
     end
 end
