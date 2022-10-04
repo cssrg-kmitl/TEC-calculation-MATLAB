@@ -29,8 +29,8 @@ cd(DCB_path);
 % == Download and DCB files
 if     length(P1C1_filename) == 8 &&  length(P1P2_filename) == 8
         %====== Download cURL command
-        P1C1_download_cmd = ['nohup curl.exe -v -O --retry 50 --retry-max-time 0 ftp://ftp.aiub.unibe.ch/CODE/' P1C1_filename];
-        P1P2_download_cmd = ['nohup curl.exe -v -O --retry 50 --retry-max-time 0 ftp://ftp.aiub.unibe.ch/CODE/' P1P2_filename];
+        P1C1_download_cmd = ['curl.exe -v -O --retry 50 --retry-max-time 0 ftp://ftp.aiub.unibe.ch/CODE/' P1C1_filename];
+        P1P2_download_cmd = ['curl.exe -v -O --retry 50 --retry-max-time 0 ftp://ftp.aiub.unibe.ch/CODE/' P1P2_filename];
         system(P1C1_download_cmd)
         system(P1P2_download_cmd)
             P1C1_filename2 = ['P1C1' year(3:4) month '.DCB'];
@@ -51,8 +51,8 @@ elseif (exist(P1C1_filename, 'file') && exist(P1P2_filename, 'file'))
         P1C1_DCB = ReadDCB(P1C1_filename,P1C1Row_fileDCB-2);
         P1P2_DCB = ReadDCB(P1P2_filename,P1C1Row_fileDCB-2);
 else
-        P1C1_download_cmd = ['nohup curl.exe -v -O --retry 50 --retry-max-time 0 ftp://ftp.aiub.unibe.ch/CODE/' year '/' P1C1_filename '.Z'];
-        P1P2_download_cmd = ['nohup curl.exe -v -O --retry 50 --retry-max-time 0 ftp://ftp.aiub.unibe.ch/CODE/' year '/' P1P2_filename '.Z'];
+        P1C1_download_cmd = ['curl.exe -v -O --retry 50 --retry-max-time 0 ftp://ftp.aiub.unibe.ch/CODE/' year '/' P1C1_filename '.Z'];
+        P1P2_download_cmd = ['curl.exe -v -O --retry 50 --retry-max-time 0 ftp://ftp.aiub.unibe.ch/CODE/' year '/' P1P2_filename '.Z'];
         system(P1C1_download_cmd)
         system(P1P2_download_cmd)
         P1P2_unzip_cmd    = ['gzip.exe -d ' P1P2_filename];
