@@ -3,8 +3,9 @@ function STEC_rm_ol= outlinecorr(STEC)
 
 STECo = STEC';
 STEC_m = nanmedian(STECo,1)';
+
 % set bound
-bound = 10; % TECu
+bound = 5; % TECu
 for pp = 1:length(STEC(1,:))
     [val,~] = find(~isnan(STEC(:,pp)));
     z = find(diff(val)>=3600); % 1hr
@@ -18,16 +19,18 @@ for pp = 1:length(STEC(1,:))
     for y = 1:length(z)
         if y == 1
             countdif = abs(STEC(val(1):val(z(y)),pp)-STEC_m(val(1):val(z(y))))>bound;
-            if sum(countdif(:) == 1) > length(countdif)/2
+            r_length = sum(~isnan(STEC_m(val(1):val(z(y)))));
+            if sum(countdif(:) == 1) > r_length/2
                 STEC(val(1):val(z(y)),pp)=nan;
             end
-            clear countdif
+            clear countdif r_length
         else
             countdif = abs(STEC(val(z(y-1)+1):val(z(y)),pp)-STEC_m(val(z(y-1)+1):val(z(y))))>bound;
-            if sum(countdif(:) == 1) > length(countdif)/2
+            r_length = sum(~isnan(STEC_m(val(z(y-1)+1):val(z(y)))));
+            if sum(countdif(:) == 1) > r_length/2
                 STEC(val(z(y-1)+1):val(z(y)),pp)=nan;
             end
-            clear countdif
+            clear countdif r_length
         end
     end
 end
