@@ -5,7 +5,7 @@ STECo = STEC';
 STEC_m = nanmedian(STECo,1)';
 
 % set bound
-bound = 5; % TECu
+bound = 10; % TECu 5 for high/mid lattitude 10 for low lattitude region
 for pp = 1:length(STEC(1,:))
     [val,~] = find(~isnan(STEC(:,pp)));
     z = find(diff(val)>=3600); % 1hr
