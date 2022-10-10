@@ -1,4 +1,4 @@
-function ROTI = roticalculation(STECl,PRNall)
+function ROTI_sec = roticalculation(STECl,PRNall)
 %{
  ========================================
             ROTI calculation (calculate every second)
