@@ -2,6 +2,7 @@ function plotTEC(year,month,date,station,S_path)
 % Plot the results
 % Noted: This function has the command that starting in R2018b: sgtitle()
 close all
+plotfilter = [0 0 0]; % 1 1 1 plot everything
 % Setting#2
 graph_size = [10 10 800 600]; % figure size
 gray   = [.5 .5 .5];
@@ -9,7 +10,7 @@ red    = [1 0 0];
 blue   = [0 0 1];
 ltgray = [.8 .8 .8];
 Time_TEC  = (0:86399)/3600;      %   Time rate 1 second
-Time_roti = (0:287)/12;          %   Time rate 5 min
+
 
 %% Figure#1 TEC and ROTI
 main1 = figure('Renderer', 'painters', 'Position', graph_size);
@@ -48,9 +49,8 @@ ylabel('TEC (TECU)')
 title('Total Electron Content (TEC)')
 text(0.5,nanmin(ylim)+2,'CSSRG Laboratory@KMITL, Thailand.','Color',[0 0 0],'FontSize',6)
 
-
 subplot(212)
-plot(Time_roti,ROTI,'k')
+plot(Time_TEC,ROTI,'k')
 axis([0 24 0 1])
 grid on
 xlabel('Time (UTC)')
@@ -60,6 +60,7 @@ text(0.5,0.12,'CSSRG Laboratory@KMITL, Thailand.','Color',[0 0 0],'FontSize',6)
 movegui(main1,'center');
 
 %% Figure#2 DCB
+if plotfilter(1) == 1
 main2 = figure('Renderer', 'painters', 'Position', graph_size);
 % Starting in R2018b
 try
@@ -90,7 +91,10 @@ text(1,DCB.rcv,num2str(DCB.rcv,'%.2f'),'vert','bottom','horiz','center');
 box off
 
 movegui(main2,'northwest');
+end
+
 %% Figure#3 STEC with DCBs
+if plotfilter(2) == 1
 main3 = figure('Renderer', 'painters', 'Position', graph_size);
 % Starting in R2018b
 try
@@ -116,8 +120,9 @@ ylabel('TEC (TECU)')
 title('STEC with receiver DCB only')
 xlabel('Time (UTC)')
 movegui(main3,'southwest');
-
+end
 %% Figure#4 STECp and STECl
+if plotfilter(3) == 1
 main4 = figure('Renderer', 'painters', 'Position', graph_size);
 try
     sgtitle(['Raw STEC at ' station ' station date:' year '/' month '/' date])
@@ -141,5 +146,6 @@ ylabel('TEC (TECU)')
 title('STEC from carrier phase calculation')
 xlabel('Time (UTC)')
 movegui(main4,'northeast');
+end
 
 end
