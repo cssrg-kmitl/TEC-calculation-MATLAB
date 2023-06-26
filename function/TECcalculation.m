@@ -26,6 +26,12 @@ end
 % Constants
 gpscons
 
+Xr2 = refpos;
+lla = xyz2lla(Xr2(1),Xr2(2),Xr2(3));
+Rcv_lat  = lla(1);
+Rcv_long = lla(2);
+Rcv_h    = lla(3);
+
 %% 1. Prepare matrix
 % NaN
 TEC.vertical         = nan(86400,32); % Vertical Total Electron Content(VTEC)
@@ -39,13 +45,16 @@ ROTI                 = nan(288,32);   % Rate of Change TEC (5 min sample)
 DCB.sat              = nan(86400,32); % Satellite DCB
 DCB.rcv              = nan(86400,32); % Receiver DCB
 prm.elevation        = nan(86400,32); % elevation angle
+prm.azimuth          = nan(86400,32); % azimuth angle
+prm.IPP_lat          = nan(86400,32); % IPP latitude
+prm.IPP_long         = nan(86400,32); % IPP longitude
 
 %% 2. TEC calculation
 %== Satellte index
 Sat_obs = unique(nav.index);
 for i = 1 : length(Sat_obs) % GPS 1 - 32
     disp(['PRN# ... ' num2str(Sat_obs(i)) ' ...'])
-    try
+    % try
     PRN = Sat_obs(i);
     Sat  = find(obs.index == PRN);
     Time = obs.epoch(Sat)+((obs.date(4)*60*60)+(obs.date(5)*60)+obs.date(6));
@@ -63,21 +72,42 @@ for i = 1 : length(Sat_obs) % GPS 1 - 32
     % 2.2 Calculate elevation angle
     [satpos,~]  = satpos_xyz_sbias(Time,PRN,nav.eph,nav.index,C1);
     vector_s  = satpos-refpos;
-    vector_r2 = refpos-center_E;
-    vector_r  = repmat(vector_r2,length(vector_s),1);
-        % elevation angle
-    prm.elevation(Time+1,PRN) = 90-acosd(dot(vector_s,vector_r,2)./(vecnorm(vector_s')'...
-                                .*vecnorm(vector_r')'));
+    % vector_r2 = refpos-center_E;
+    % vector_r  = repmat(vector_r2,length(vector_s),1);
+    %     % elevation angle
+    % prm.elevation(Time+1,PRN) = 90-acosd(dot(vector_s,vector_r,2)./(vecnorm(vector_s')'...
+    %                             .*vecnorm(vector_r')'));
+    %
+    R = [-sind(Rcv_long)                cosd(Rcv_long)                            0;
+     -sind(Rcv_lat)*cosd(Rcv_long) -sind(Rcv_lat)*sind(Rcv_long)  cosd(Rcv_lat);
+      cosd(Rcv_lat)*cosd(Rcv_long)  cosd(Rcv_lat)*sind(Rcv_long)  sind(Rcv_lat)];
+    Xs = satpos;
+    Xr = repmat(refpos,length(vector_s),1);
+    Rs = [Xs(:,1)-Xr(:,1) Xs(:,2)-Xr(:,2) Xs(:,3)-Xr(:,3)];
+    RL = (R*Rs')';
+    Xl = RL(:,1);
+    Yl = RL(:,2);
+    Zl = RL(:,3);
+    Ele                 = atan2(Zl,sqrt(Xl.^2+Yl.^2))*180/pi;
+    prm.elevation(Time+1,PRN) = atan2(Zl,sqrt(Xl.^2+Yl.^2))*180/pi;
+    Azi2 = atan2(Xl,Yl)*180/pi;
+    Psi2 = 90-Ele-asind(Re*cosd(Ele)/(Re+h));
+    IPP_lat1  = Rcv_lat + Psi2.*cosd(Azi2);
+    IPP_long1 = Rcv_long + Psi2.*sind(Azi2)./cosd(IPP_lat1);
+    prm.azimuth(Time+1,PRN) = Azi2;
+    prm.IPP_lat(Time+1,PRN) = IPP_lat1;
+    prm.IPP_long(Time+1,PRN) = IPP_long1;
+    %
     % 2.3 Calculate STEC
         %===== STEC Pseudorange
     STECp(Time+1,PRN) = k*(P2-C1);
         %===== STEC Carrier phase
     STECl(Time+1,PRN) = k*(L1-L2);
     Times(Time+1,PRN) = Time+1;
-    catch
-        disp(['PRN# ... ' num2str(Sat_obs(i)) '... error ...'])
-        continue
-    end
+    % catch
+    %     disp(['PRN# ... ' num2str(Sat_obs(i)) '... error ...'])
+    %     continue
+    % end
 end
 
     % 2.4 elevation angle cutoff <15 degree
@@ -163,5 +193,3 @@ filename = [S_path 'TEC_' obs.station '_' year '_' month '_' date];
 save(filename,name1,name2,name3,name4,'refpos')
 disp(['Complete to Calculate TEC at ' obs.station ' station'])
 end
-
-    
