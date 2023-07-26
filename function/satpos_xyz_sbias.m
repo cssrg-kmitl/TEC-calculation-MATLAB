@@ -66,7 +66,8 @@ MA = m(1);
 D = d(1);
 
 % Calculate Julian date
-JD  = juliandate(Y,MA,D);
+YMD = datetime(Y,MA,D);
+JD  = juliandate(YMD);
 
 % Calculation of GPS Week
 GPSW = fix((JD - 2444244.5)/7);
