@@ -71,33 +71,10 @@ for i = 1 : length(Sat_obs) % GPS 1 - 32
     
     % 2.2 Calculate elevation angle
     [satpos,~]  = satpos_xyz_sbias(Time,PRN,nav.eph,nav.index,C1);
-    vector_s  = satpos-refpos;
-    % vector_r2 = refpos-center_E;
-    % vector_r  = repmat(vector_r2,length(vector_s),1);
-    %     % elevation angle
+    % elevation angle and Azimulth
+    [prm.elevation(Time+1,PRN),prm.azimuth(Time+1,PRN)] = calelevation(satpos',refpos');
     % prm.elevation(Time+1,PRN) = 90-acosd(dot(vector_s,vector_r,2)./(vecnorm(vector_s')'...
     %                             .*vecnorm(vector_r')'));
-    %
-    R = [-sind(Rcv_long)                cosd(Rcv_long)                            0;
-     -sind(Rcv_lat)*cosd(Rcv_long) -sind(Rcv_lat)*sind(Rcv_long)  cosd(Rcv_lat);
-      cosd(Rcv_lat)*cosd(Rcv_long)  cosd(Rcv_lat)*sind(Rcv_long)  sind(Rcv_lat)];
-    Xs = satpos;
-    Xr = repmat(refpos,length(vector_s),1);
-    Rs = [Xs(:,1)-Xr(:,1) Xs(:,2)-Xr(:,2) Xs(:,3)-Xr(:,3)];
-    RL = (R*Rs')';
-    Xl = RL(:,1);
-    Yl = RL(:,2);
-    Zl = RL(:,3);
-    Ele                 = atan2(Zl,sqrt(Xl.^2+Yl.^2))*180/pi;
-    prm.elevation(Time+1,PRN) = atan2(Zl,sqrt(Xl.^2+Yl.^2))*180/pi;
-    Azi2 = atan2(Xl,Yl)*180/pi;
-    Psi2 = 90-Ele-asind(Re*cosd(Ele)/(Re+h));
-    IPP_lat1  = Rcv_lat + Psi2.*cosd(Azi2);
-    IPP_long1 = Rcv_long + Psi2.*sind(Azi2)./cosd(IPP_lat1);
-    prm.azimuth(Time+1,PRN) = Azi2;
-    prm.IPP_lat(Time+1,PRN) = IPP_lat1;
-    prm.IPP_long(Time+1,PRN) = IPP_long1;
-    %
     % 2.3 Calculate STEC
         %===== STEC Pseudorange
     STECp(Time+1,PRN) = k*(P2-C1);
