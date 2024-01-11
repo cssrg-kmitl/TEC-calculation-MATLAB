@@ -94,6 +94,7 @@ mask(~isnan(mask))   = 1;
 TEC.STECp = mask.*STECp;
 TEC.STECl = mask.*STECl;
 prm.elevation = mask.*prm.elevation;
+prm.azimuth   = mask.*prm.azimuth;
 prm.Times = mask.*Times;
 
     % 2.5 Cycle slip correction
