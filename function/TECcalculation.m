@@ -73,8 +73,7 @@ for i = 1 : length(Sat_obs) % GPS 1 - 32
     [satpos,~]  = satpos_xyz_sbias(Time,PRN,nav.eph,nav.index,C1);
     % elevation angle and Azimulth
     [prm.elevation(Time+1,PRN),prm.azimuth(Time+1,PRN)] = calelevation(satpos',refpos');
-    % prm.elevation(Time+1,PRN) = 90-acosd(dot(vector_s,vector_r,2)./(vecnorm(vector_s')'...
-    %                             .*vecnorm(vector_r')'));
+
     % 2.3 Calculate STEC
         %===== STEC Pseudorange
     STECp(Time+1,PRN) = k*(P2-C1);
