@@ -22,6 +22,5 @@ Xl = RL(:,1);
 Yl = RL(:,2);
 Zl = RL(:,3);
 elev = atan2(Zl,sqrt(Xl.^2+Yl.^2))*180/pi;
-azi = atan2(cos(Lat_s) .* sin(Lon_s-Lon),...
-           cos(Lat) .* sin(Lat_s) - sin(Lat) .* cos(Lat_s) .* cos(Lon_s-Lon));
+azi = atan2d(Yl,Xl);
 end
