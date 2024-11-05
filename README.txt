@@ -10,7 +10,7 @@ Version 1.2
 (01/11/2024) - add calelevation function
 1. The program need linux command. Cygwin must be installed
 - install Cygwin-setup-x86_64.exe (64-bit ver.)
-or download: http://cygwin.com/install.html
+or download: https://www.cygwin.com/
 
 2. Main program is ProcessTECCalculation.m
 
